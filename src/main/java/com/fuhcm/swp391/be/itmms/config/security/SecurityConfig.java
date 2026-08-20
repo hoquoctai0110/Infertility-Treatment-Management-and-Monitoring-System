@@ -1,8 +1,7 @@
 package com.fuhcm.swp391.be.itmms.config.security;
 
 import com.fuhcm.swp391.be.itmms.service.CustomOAuth2SuccessHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -18,73 +17,51 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private JWTFilter jwtFilter;
-    private CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
-
-    private PasswordEncoder passwordEncoder;
-
-
-    public SecurityConfig(@Lazy UserDetailsService userDetailsService,
-                          JWTFilter jwtFilter,
-                          CustomOAuth2SuccessHandler customOAuth2SuccessHandler,
-                            PasswordEncoder passwordEncoder) {
-        this.userDetailsService = userDetailsService;
-        this.jwtFilter = jwtFilter;
-        this.customOAuth2SuccessHandler = customOAuth2SuccessHandler;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Lazy
+    private final UserDetailsService userDetailsService;
+    private final JWTFilter jwtFilter;
+    private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println("Filter í running");
         return http
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
 
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
-
-                        
-                        .requestMatchers("/api/application").permitAll()
-
-                                .requestMatchers("/ws/**").permitAll()
-                                .requestMatchers("/topic/**", "/app/**", "/user/**").permitAll()
-                                .requestMatchers("/api/application").permitAll()
-                        .requestMatchers("/api/auth/register").permitAll()
-                        .requestMatchers("/api/auth/login").permitAll()
-                        .requestMatchers("/api/auth/register/resend-verification-email").permitAll()
-                        .requestMatchers("/api/auth/forgot-password").permitAll()
-                        .requestMatchers("/api/auth/reset-password").permitAll()
-                        .requestMatchers("/api/auth/register/confirm-email").permitAll()
-                        .requestMatchers("/api/home/**").permitAll()
-                        .requestMatchers("/api/doctors/**").permitAll()
-                        .requestMatchers("/api/services/**").permitAll()
-                        .requestMatchers("/api/list/**").permitAll()
-                        .requestMatchers("/api/manager/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/consultation").permitAll()
-                        .requestMatchers("/o/oauth2/v2/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/payment/vn-pay-callback").permitAll()
+                        .requestMatchers("/api/application",
+                                "/ws/**",
+                                "/topic/**",
+                                "/app/**",
+                                "/user/**",
+                                "/api/auth/register",
+                                "/api/auth/login",
+                                "/api/auth/register/resend-verification-email",
+                                "/api/auth/forgot-password",
+                                "/api/auth/reset-password",
+                                "/api/auth/register/confirm-email",
+                                "/api/home/**",
+                                "/api/doctors/**",
+                                "/api/services/**",
+                                "/api/list/**",
+                                "/api/manager/**",
+                                "/o/oauth2/v2/auth/**"
+                                ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/blogs/for-user").permitAll()
-
-                                .requestMatchers("/api/accounts/login-info").hasAnyRole("ADMIN", "MANAGER", "STAFF", "USER", "DOCTOR")
+                        .requestMatchers("/api/accounts/login-info").hasAnyRole("ADMIN", "MANAGER", "STAFF", "USER", "DOCTOR")
                         // USER role
-                        .requestMatchers(HttpMethod.PUT, "api/appointments/confirm-appointment").hasAnyRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/api/appointments/confirm-appointment").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/api/user/profile").hasAnyRole("USER", "DOCTOR", "MANAGER", "STAFF")
-                        .requestMatchers(HttpMethod.GET, "/api/payment/vn-pay").hasAnyRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/api/payment/vn-pay").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/api/blogs").hasAnyRole("MANAGER", "DOCTOR")
-                        .requestMatchers(HttpMethod.GET, "api/user/appointments/available-doctors").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/api/user/appointments/available-doctors").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/api/appointments").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/api/reviews").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/api/invoices/**").hasAnyRole("USER", "STAFF", "MANAGER")
@@ -98,10 +75,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/schedules/manage/**").hasAnyRole("DOCTOR", "ADMIN")
 
                         //STAFF role
-                                .requestMatchers("/api/consultation").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/api/consultation").hasRole("STAFF")
-//                        .requestMatchers(HttpMethod.PUT, "/api/consultation").hasAnyRole("STAFF")
-//                        .requestMatchers(HttpMethod.DELETE, "/api/consultation").hasAnyRole("STAFF")
+                        .requestMatchers("/api/consultation").permitAll()
 
                         //MANAGER role
                         .requestMatchers(HttpMethod.GET, "/api/blogs").hasRole("MANAGER")
@@ -122,12 +96,10 @@ public class SecurityConfig {
                 ).oauth2Login(oauth2 -> oauth2
                         .successHandler(customOAuth2SuccessHandler)
                 )
-                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -141,6 +113,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
-
 }
