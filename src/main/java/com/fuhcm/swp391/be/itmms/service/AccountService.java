@@ -17,6 +17,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,51 +35,22 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AccountService {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
-    private AccountRepository accountRepo;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private ScheduleRepository scheduleRepo;
-
-    @Autowired
-    @Lazy
-    private ScheduleService scheduleService;
-
-    @Autowired
-    private AppointmentRepository appointmentRepo;
-
-    @Autowired
-    private RoleRepository roleRepo;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private DoctorRepository doctorRepo;
-
-    @Autowired
-    private ShiftService shiftService;
-    @Autowired
-    @Lazy
-    private AuthenticationService authenticationService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private StaffRepository staffRepo;
-
-
+    private final AccountRepository accountRepo;
+    private final ModelMapper modelMapper;
+    private final RoleService roleService;
+    private final ScheduleRepository scheduleRepo;
+    private final ScheduleService scheduleService;
+    private final AppointmentRepository appointmentRepo;
+    private final RoleRepository roleRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final DoctorRepository doctorRepo;
+    private final ShiftService shiftService;
+    private final AuthenticationService authenticationService;
+    private final UserRepository userRepository;
+    private final EmailService emailService;
+    private final StaffRepository staffRepo;
 
     public DirectPatientDTO createDirectPatient(DirectPatientDTO request) {
         Account staff = authenticationService.getCurrentAccount();

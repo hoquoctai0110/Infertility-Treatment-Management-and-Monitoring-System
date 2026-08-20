@@ -2,7 +2,6 @@ package com.fuhcm.swp391.be.itmms.service;
 
 import com.fuhcm.swp391.be.itmms.constant.InvoiceStatus;
 import com.fuhcm.swp391.be.itmms.dto.response.EmailDetail;
-import com.fuhcm.swp391.be.itmms.dto.response.EmailDetailReminder;
 import com.fuhcm.swp391.be.itmms.dto.response.InvoiceReportResponse;
 import com.fuhcm.swp391.be.itmms.dto.response.InvoiceResponse;
 import com.fuhcm.swp391.be.itmms.entity.Account;
@@ -13,44 +12,26 @@ import com.fuhcm.swp391.be.itmms.entity.treatment.TreatmentPlan;
 import com.fuhcm.swp391.be.itmms.repository.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class InvoiceService {
+    private final InvoiceRepository invoiceRepository;
+    private final AccountRepository accountRepository;
+    private final ServiceRepository serviceRepository;
+    private final TreatmentPlanRepository treatmentPlanRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
+    private final PaymentService paymentService;
+    private final ReminderService reminderService;
+    private final EmailService emailService;
 
-    @Autowired
-    private InvoiceRepository invoiceRepository;
-
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private ServiceRepository serviceRepository;
-
-    @Autowired
-    private TreatmentPlanRepository treatmentPlanRepository;
-
-    @Autowired
-    private MedicalRecordRepository medicalRecordRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PaymentService paymentService;
-
-    @Autowired
-    private ReminderService reminderService;
-
-    @Autowired
-    private EmailService emailService;
 
     public List<InvoiceReportResponse> getInvoiceForReport(@Valid @NotNull LocalDate fromDate, @Valid @NotNull LocalDate toDate) {
         if(fromDate.isAfter(toDate)){

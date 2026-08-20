@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +15,12 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class ConfirmTokenRegisterService {
 
     private final AuthenticationService authenticationService;
     @Value("${secret-key}")
     private String SECRET_KEY;
-
-    public ConfirmTokenRegisterService(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
 
     private SecretKey getSigninKey(){
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);

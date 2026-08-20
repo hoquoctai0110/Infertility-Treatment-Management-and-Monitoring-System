@@ -6,22 +6,17 @@ import com.fuhcm.swp391.be.itmms.entity.Account;
 import com.fuhcm.swp391.be.itmms.entity.User;
 import com.fuhcm.swp391.be.itmms.repository.UserRepository;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-
     private final UserRepository userRepository;
     private final AccountService accountService;
     private final ModelMapper modelMapper;
-
-    public UserService(UserRepository userRepository, AccountService accountService, ModelMapper modelMapper) {
-        this.userRepository = userRepository;
-        this.accountService = accountService;
-        this.modelMapper = modelMapper;
-    }
 
     public User findById(long id) throws NotFoundException {
         return userRepository.findById(id)

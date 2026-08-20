@@ -14,6 +14,7 @@ import com.fuhcm.swp391.be.itmms.repository.ApplicationRepository;
 import com.fuhcm.swp391.be.itmms.repository.DoctorRepository;
 import com.fuhcm.swp391.be.itmms.repository.StaffRepository;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -23,19 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ApplicationService {
+    private final AccountRepository accountRepository;
+    private final ApplicationRepository applicationRepository;
+    private final DoctorRepository doctorRepository;
+    private final StaffRepository staffRepository;
 
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private ApplicationRepository applicationRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
-    private StaffRepository staffRepository;
     public ApplicationResponse createApplication(@Valid ApplicationRequest applicationRequest,
                                                  Authentication authentication) {
         Account account = accountRepository.findByEmail(authentication.getName());

@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -33,45 +34,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AppointmentService {
-
-    @Autowired
-    private AppointmentRepository appointmentRepository;
-
-    @Autowired
-    private ScheduleService scheduleService;
-
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private Validation validation;
-
-    @Autowired
-    private ShiftService shiftService;
-
-    @Autowired
-    private JWTService jwtService;
-
-    @Autowired
-    private JWTFilter jwtFilter;
-
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private ReminderService reminderService;
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private NotificationService notificationService;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private AuthenticationService authenticationService;
-    @Autowired
-    private InvoiceRepository invoiceRepository;
-    @Autowired
-    private PaymentService paymentService;
+    private final AppointmentRepository appointmentRepository;
+    private final ScheduleService scheduleService;
+    private final AccountService accountService;
+    private final Validation validation;
+    private final ShiftService shiftService;
+    private final JWTService jwtService;
+    private final JWTFilter jwtFilter;
+    private final AccountRepository accountRepository;
+    private final ReminderService reminderService;
+    private final EmailService emailService;
+    private final NotificationService notificationService;
+    private final ModelMapper modelMapper;
+    private final AuthenticationService authenticationService;
+    private final InvoiceRepository invoiceRepository;
+    private final PaymentService paymentService;
 
     public Appointment createNewAppointment(AppointmentRequest appointmentRequest,
                                             Authentication authentication) {

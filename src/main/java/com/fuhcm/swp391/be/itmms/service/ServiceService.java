@@ -9,6 +9,7 @@ import com.fuhcm.swp391.be.itmms.entity.Account;
 import com.fuhcm.swp391.be.itmms.repository.ServiceRepository;
 import com.fuhcm.swp391.be.itmms.utils.SlugUtil;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -20,20 +21,12 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ServiceService {
 
     private final ServiceRepository serviceRepository;
     private final ModelMapper modelMapper;
     private final AuthenticationService authenticationService;
-
-    public ServiceService(ServiceRepository serviceRepository,
-                          ModelMapper modelMapper,
-                          AuthenticationService authenticationService,
-                          DoctorService doctorService) {
-        this.serviceRepository = serviceRepository;
-        this.modelMapper = modelMapper;
-        this.authenticationService = authenticationService;
-    }
 
     public com.fuhcm.swp391.be.itmms.entity.service.Service findById(Long id) throws NotFoundException {
         return serviceRepository.findById(id)

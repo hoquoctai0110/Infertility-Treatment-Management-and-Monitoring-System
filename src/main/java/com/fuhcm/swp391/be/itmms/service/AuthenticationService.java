@@ -40,8 +40,8 @@ import java.util.List;
 
 @Service
 @Data
+@RequiredArgsConstructor
 public class AuthenticationService {
-
     private final AuthenticationRepository authenticationRepository;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -53,25 +53,6 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
     private final UserRepository userRepository;
-
-    public AuthenticationService(AuthenticationRepository authenticationRepository,
-                                 JWTService jwtService,
-                                 AuthenticationManager authenticationManager,
-                                 ModelMapper modelMapper,
-                                 EmailService emailService,
-                                 @Lazy ConfirmTokenRegisterService confirmTokenRegisterService,
-                                 PasswordEncoder passwordEncoder,
-                                 RoleService roleService, UserRepository userRepository) {
-        this.authenticationRepository = authenticationRepository;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
-        this.modelMapper = modelMapper;
-        this.emailService = emailService;
-        this.confirmTokenRegisterService = confirmTokenRegisterService;
-        this.passwordEncoder = passwordEncoder;
-        this.roleService = roleService;
-        this.userRepository = userRepository;
-    }
 
     public Account getCurrentAccount() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

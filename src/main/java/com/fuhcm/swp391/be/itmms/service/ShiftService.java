@@ -4,7 +4,9 @@ import com.fuhcm.swp391.be.itmms.entity.Appointment;
 import com.fuhcm.swp391.be.itmms.entity.Shift;
 import com.fuhcm.swp391.be.itmms.repository.AppointmentRepository;
 import com.fuhcm.swp391.be.itmms.repository.ShiftRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -14,13 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ShiftService {
-
-    @Autowired
-    private ShiftRepository shiftRepository;
-
-    @Autowired
-    private AppointmentRepository appointmentRepository;
+    private final ShiftRepository shiftRepository;
+    private final AppointmentRepository appointmentRepository;
 
     public List<LocalTime> generateSlot(LocalTime start, LocalTime end, Duration slotDuration) {
         List<LocalTime> slots = new ArrayList<>();

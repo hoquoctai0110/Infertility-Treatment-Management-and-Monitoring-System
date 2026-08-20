@@ -3,22 +3,18 @@ import com.fuhcm.swp391.be.itmms.dto.LabTestDTO;
 import com.fuhcm.swp391.be.itmms.entity.lab.LabTest;
 import com.fuhcm.swp391.be.itmms.repository.LabTestRepository;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LabTestService {
 
     private final LabTestRepository labTestRepository;
     private final ModelMapper modelMapper;
-
-    public LabTestService(LabTestRepository labTestRepository, ModelMapper modelMapper) {
-        this.labTestRepository = labTestRepository;
-        this.modelMapper = modelMapper;
-    }
-
 
     public List<LabTestDTO> getLabTests() {
         return labTestRepository

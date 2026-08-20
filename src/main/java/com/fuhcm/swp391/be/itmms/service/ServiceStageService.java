@@ -5,6 +5,7 @@ import com.fuhcm.swp391.be.itmms.dto.response.ServiceStageResponse;
 import com.fuhcm.swp391.be.itmms.entity.service.ServiceStage;
 import com.fuhcm.swp391.be.itmms.repository.ServiceStageRepository;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -12,19 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ServiceStageService {
 
     private final ServiceStageRepository serviceStageRepository;
     private final ModelMapper modelMapper;
     private final ServiceService serviceService;
 
-    public ServiceStageService(ServiceStageRepository serviceStageRepository,
-                               ModelMapper modelMapper,
-                               ServiceService serviceService) {
-        this.serviceStageRepository = serviceStageRepository;
-        this.modelMapper = modelMapper;
-        this.serviceService = serviceService;
-    }
 
     public List<ServiceStage> findByServiceId(Long serviceId) throws NotFoundException {
         List<ServiceStage> stages = serviceStageRepository.findByServiceIdAndIsActiveIsTrue(serviceId);

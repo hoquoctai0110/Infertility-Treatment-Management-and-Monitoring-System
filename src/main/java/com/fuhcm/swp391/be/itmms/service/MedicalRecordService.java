@@ -27,47 +27,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MedicalRecordService {
-
     private final MedicalRecordRepository medicalRecordRepository;
     private final UserRepository userRepository;
     private final MedicalRecordAccessRepository medicalRecordAccessRepository;
     private final AuthenticationService authenticationService;
-    private final AccountService accountService;
     private final LabTestResultService labTestResultService;
     private final ModelMapper modelMapper;
     private final UltrasoundService ultrasoundService;
     private final DoctorRepository doctorRepository;
     private final MedicalRecordAccessService medicalRecordAccessService;
     private final AccountRepository accountRepository;
-    private final RoleRepository roleRepository;
     private final RoleService roleService;
-
-
-    public MedicalRecordService(MedicalRecordRepository medicalRecordRepository,
-                                UserRepository userRepository,
-                                MedicalRecordAccessRepository medicalRecordAccessRepository,
-                                AuthenticationService authenticationService,
-                                AccountService accountService,
-                                @Lazy LabTestResultService labTestResultService,
-                                ModelMapper modelMapper,
-                                UltrasoundService ultrasoundService,
-                                DoctorRepository doctorRepository,
-                                MedicalRecordAccessService medicalRecordAccessService, AccountRepository accountRepository, RoleRepository roleRepository, RoleService roleService) {
-        this.medicalRecordRepository = medicalRecordRepository;
-        this.userRepository = userRepository;
-        this.medicalRecordAccessRepository = medicalRecordAccessRepository;
-        this.authenticationService = authenticationService;
-        this.accountService = accountService;
-        this.labTestResultService = labTestResultService;
-        this.modelMapper = modelMapper;
-        this.ultrasoundService = ultrasoundService;
-        this.doctorRepository = doctorRepository;
-        this.medicalRecordAccessService = medicalRecordAccessService;
-        this.accountRepository = accountRepository;
-        this.roleRepository = roleRepository;
-        this.roleService = roleService;
-    }
 
     public MedicalRecord findById(Long id) throws NotFoundException {
         return medicalRecordRepository
@@ -266,35 +238,4 @@ public class MedicalRecordService {
         }
         return false;
     }
-
-    //    public ManagerMedicalRecordResponse getManagerMedicalRecord(Long accountId) throws NotFoundException {
-//        Account account = accountService.findById(accountId);
-//        User user = account.getUser();
-//        if (user == null || user.getMedicalRecord() == null) {
-//            throw new NotFoundException("Không tìm thấy thông tin bệnh nhân hay hồ sơ bệnh án");
-//        }
-//        MedicalRecord medicalRecord = user.getMedicalRecord();
-//        Optional<MedicalRecordAccess> accessOpt =
-//                medicalRecordAccessRepository.findByMedicalRecordAndRole(medicalRecord, AccessRole.MAIN_DOCTOR);
-//        DoctorResponse doctorResponse = null;
-//        if (accessOpt.isPresent()) {
-//            Account doctorAccount = accessOpt.get().getGrantedTo();
-//            if (doctorAccount != null && doctorAccount.getDoctor() != null) {
-//                doctorResponse = new DoctorResponse(doctorAccount);
-//                modelMapper.map(doctorAccount.getDoctor(), doctorResponse);
-//            }
-//        }
-//
-//        MedicalRecordResponse medicalRecordResponse = new MedicalRecordResponse();
-//        modelMapper.map(medicalRecord, medicalRecordResponse);
-//
-//        if (user != null) {
-//            Account userAcc = user.getAccount();
-//            if (userAcc != null) {
-//                modelMapper.map(userAcc, medicalRecordResponse);
-//            }
-//            modelMapper.map(user, medicalRecordResponse);
-//        }
-//        return new ManagerMedicalRecordResponse(medicalRecordResponse, doctorResponse);
-//    }
 }

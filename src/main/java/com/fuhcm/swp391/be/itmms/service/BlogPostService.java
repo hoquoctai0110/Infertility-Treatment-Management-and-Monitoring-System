@@ -7,7 +7,7 @@ import com.fuhcm.swp391.be.itmms.entity.Account;
 import com.fuhcm.swp391.be.itmms.entity.BlogPost;
 import com.fuhcm.swp391.be.itmms.repository.AccountRepository;
 import com.fuhcm.swp391.be.itmms.repository.BlogPostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BlogPostService {
-
-    @Autowired
-    private BlogPostRepository blogPostRepository;
-
-    @Autowired
-    private AccountRepository accountRepository;
+    private final BlogPostRepository blogPostRepository;
+    private final AccountRepository accountRepository;
 
     public List<BlogPostResponse> getBlogPosts() {
         List<BlogPostResponse> blogPostResponses = new ArrayList<>();

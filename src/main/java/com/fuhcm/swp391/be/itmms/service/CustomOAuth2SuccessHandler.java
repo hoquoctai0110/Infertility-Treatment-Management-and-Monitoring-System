@@ -5,7 +5,6 @@ import com.fuhcm.swp391.be.itmms.config.security.PasswordEncoder;
 import com.fuhcm.swp391.be.itmms.constant.AccountRole;
 import com.fuhcm.swp391.be.itmms.constant.AccountStatus;
 import com.fuhcm.swp391.be.itmms.constant.Gender;
-import com.fuhcm.swp391.be.itmms.dto.response.LoginResponse;
 import com.fuhcm.swp391.be.itmms.entity.Account;
 import com.fuhcm.swp391.be.itmms.entity.Role;
 import com.fuhcm.swp391.be.itmms.entity.User;
@@ -15,9 +14,7 @@ import com.fuhcm.swp391.be.itmms.repository.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -26,31 +23,19 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler {
-
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final AccountRepository accountRepo;
+    private final JWTService jwtService;
+    private final RoleRepository roleRepo;
+    private final AccountService accountService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepo;
 
-    @Autowired
-    private AccountRepository accountRepo;
-
-    @Autowired
-    private JWTService jwtService;
-
-    @Autowired
-    private RoleRepository roleRepo;
-
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRepository userRepo;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,

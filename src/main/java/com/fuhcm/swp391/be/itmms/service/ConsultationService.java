@@ -7,6 +7,7 @@ import com.fuhcm.swp391.be.itmms.entity.Account;
 import com.fuhcm.swp391.be.itmms.entity.Consultation;
 import com.fuhcm.swp391.be.itmms.repository.AccountRepository;
 import com.fuhcm.swp391.be.itmms.repository.ConsultationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ConsultationService {
-
-    @Autowired
-    private ConsultationRepository consultationRepository;
-
-    @Autowired
-    private AccountRepository accountRepository;
+    private final ConsultationRepository consultationRepository;
+    private final AccountRepository accountRepository;
 
     public ConsultationResponse createConsultation(ConsultationRequest consultationRequest) {
         Consultation consultation = new Consultation();

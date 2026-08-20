@@ -25,25 +25,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PaymentService {
     private final PaymentConfig vnPayConfig;
-
-    @Autowired
-    private InvoiceRepository invoiceRepository;
-
-    @Autowired
-    private AppointmentService appointmentService;
-
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private JWTFilter jwtFilter;
-
-    @Autowired
-    private JWTService jwtService;
-
-    @Autowired
-    private AppointmentRepository  appointmentRepository;
-
+    private final InvoiceRepository invoiceRepository;
+    private final JWTFilter jwtFilter;
+    private final JWTService jwtService;
+    private final AppointmentRepository  appointmentRepository;
 
     public PaymentDTO createVnPayPayment(HttpServletRequest request, Authentication authentication) {
         long amount = Integer.parseInt(request.getParameter("amount")) * 100L;
