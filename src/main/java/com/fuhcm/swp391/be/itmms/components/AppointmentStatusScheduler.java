@@ -15,6 +15,7 @@ import com.fuhcm.swp391.be.itmms.repository.TreatmentSessionRepository;
 import com.fuhcm.swp391.be.itmms.service.EmailService;
 import com.fuhcm.swp391.be.itmms.service.NotificationService;
 import com.fuhcm.swp391.be.itmms.service.ReminderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -25,22 +26,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class AppointmentStatusScheduler {
-
-    @Autowired
-    private AppointmentRepository appointmentRepository;
-    @Autowired
-    private TreatmentSessionRepository treatmentSessionRepository;
-    @Autowired
-    private ReminderRepository reminderRepository;
-    @Autowired
-    private ReminderService reminderService;
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private NotificationService notificationService;
-    @Autowired
-    private MedicalRecordRepository medicalRecordRepository;
+    private final AppointmentRepository appointmentRepository;
+    private final TreatmentSessionRepository treatmentSessionRepository;
+    private final ReminderRepository reminderRepository;
+    private final ReminderService reminderService;
+    private final NotificationService notificationService;
+    private final MedicalRecordRepository medicalRecordRepository;
 
     @Scheduled(fixedRate = 600000)
     public void checkUnpaidAppointments(){
