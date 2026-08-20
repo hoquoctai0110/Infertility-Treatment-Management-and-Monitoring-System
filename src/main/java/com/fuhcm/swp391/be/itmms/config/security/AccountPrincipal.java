@@ -2,18 +2,15 @@ package com.fuhcm.swp391.be.itmms.config.security;
 
 import com.fuhcm.swp391.be.itmms.constant.AccountStatus;
 import com.fuhcm.swp391.be.itmms.entity.Account;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
-
+@RequiredArgsConstructor
 public class AccountPrincipal implements UserDetails {
 
-    private Account account;
-
-    public AccountPrincipal(Account account) {
-        this.account = account;
-    }
+    private final Account account;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return account.getRoles().stream()

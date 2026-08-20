@@ -1,6 +1,8 @@
 package com.fuhcm.swp391.be.itmms.config.payment;
 
 import com.fuhcm.swp391.be.itmms.utils.VNPayUtil;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 
 import java.text.SimpleDateFormat;
@@ -10,42 +12,16 @@ import java.util.Map;
 import java.util.TimeZone;
 
 @Configuration
+@Getter
 public class PaymentConfig {
-    private String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    private String vnp_ReturnUrl = "http://localhost:3000/payment-result";
-    private String vnp_TmnCode = "7TXS9FV1" ;
-    private String secretKey = "1S3XLZFHG1OCYTVUH31VEOSYBQF0GPMI";
-    private String vnp_Version = "2.1.0";
-    private String vnp_Command = "pay";
-    private String orderType = "other";
+    private final String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+    private final String vnp_ReturnUrl = "http://localhost:3000/payment-result";
+    private final String vnp_TmnCode = "7TXS9FV1" ;
+    private final String secretKey = "1S3XLZFHG1OCYTVUH31VEOSYBQF0GPMI";
+    private final String vnp_Version = "2.1.0";
+    private final String vnp_Command = "pay";
+    private final String orderType = "other";
 
-    public String getVnp_PayUrl() {
-        return vnp_PayUrl;
-    }
-
-    public String getVnp_ReturnUrl() {
-        return vnp_ReturnUrl;
-    }
-
-    public String getVnp_TmnCode() {
-        return vnp_TmnCode;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public String getVnp_Version() {
-        return vnp_Version;
-    }
-
-    public String getVnp_Command() {
-        return vnp_Command;
-    }
-
-    public String getOrderType() {
-        return orderType;
-    }
 
     public Map<String, String> getVNPayConfig() {
         Map<String, String> vnpParamsMap = new HashMap<>();
