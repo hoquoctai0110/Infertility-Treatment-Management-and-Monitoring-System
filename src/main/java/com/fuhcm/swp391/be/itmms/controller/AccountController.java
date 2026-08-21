@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class AccountController {
 
     private final AccountService accountService;
@@ -34,7 +35,7 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping("/api/staff/direct-patients")
+    @PostMapping("/staff/direct-patients")
     public ResponseEntity createPatientAccount(@Valid @RequestBody DirectPatientDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ResponseFormat<>(HttpStatus.CREATED.value(),
@@ -43,7 +44,7 @@ public class AccountController {
                         accountService.createDirectPatient(request)));
     }
 
-    @GetMapping("/api/staff/direct-patients")
+    @GetMapping("/staff/direct-patients")
     public ResponseEntity<?> getAllDirectPatientsByStaff() {
         List<DirectPatientDTO> result = accountService.getDirectPatientsByCurrentStaff();
         return ResponseEntity.ok(new ResponseFormat<>(
@@ -54,7 +55,7 @@ public class AccountController {
         ));
     }
 
-    @GetMapping("/api/user/profile")
+    @GetMapping("/user/profile")
     public ResponseEntity getUserProfile(Authentication authentication) throws NotFoundException {
         ProfileResponse profile = accountService.getUserProfile(authentication);
         if(profile == null) {
@@ -70,7 +71,7 @@ public class AccountController {
                 profile));
     }
 
-    @PutMapping("/api/user/profile")
+    @PutMapping("/user/profile")
     public ResponseEntity updateUserProfile(@Validated(OnUpdate.class) @RequestBody ProfileUpdateRequest request) throws NotFoundException {
         ProfileResponse profile = accountService.updateUserProfile(request);
         return ResponseEntity.ok(new ResponseFormat<>(HttpStatus.OK.value(),
@@ -79,7 +80,7 @@ public class AccountController {
                 profile));
     }
 
-    @GetMapping("/api/manage/doctors")
+    @GetMapping("/manage/doctors")
     public ResponseEntity getDoctorAccounts() {
         List<AccountBasic> doctorAccounts = accountService.getDoctorAccounts();
         return ResponseEntity.ok(
@@ -90,7 +91,7 @@ public class AccountController {
         );
     }
 
-    @GetMapping("/api/manage/doctors/search")
+    @GetMapping("/manage/doctors/search")
     public ResponseEntity<?> searchDoctors(@RequestParam("keyword") String keyword) throws NotFoundException {
         List<AccountBasic> results = accountService.searchDoctors(keyword);
         return ResponseEntity.ok(
@@ -103,7 +104,7 @@ public class AccountController {
 
 
     @PreAuthorize("hasRole('USER')")
-    @GetMapping("/api/user/appointments/available-doctors")
+    @GetMapping("/user/appointments/available-doctors")
     public ResponseEntity<ApiResponse<?>> getAvailableDoctors() {
         Set<AccountResponse> availableDoctors = accountService.getAvailableDoctors();
         if(availableDoctors == null ||  availableDoctors.isEmpty()){
@@ -130,7 +131,7 @@ public class AccountController {
                         response));
     }
 
-    @GetMapping("api/accounts/login-info")
+    @GetMapping("/accounts/login-info")
     public ResponseEntity getInfoLogin(Authentication authentication) throws NotFoundException {
         AccountBasic response = accountService.getInfoLogin(authentication);
         if(response == null){
@@ -149,7 +150,7 @@ public class AccountController {
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/api/accounts/accounts-report")
+    @GetMapping("/accounts/accounts-report")
     public ResponseEntity<?> getListAccountsForReport(
             @Valid @RequestParam("fromDate") @NotNull LocalDate fromDate,
             @Valid @RequestParam("toDate") @NotNull LocalDate toDate

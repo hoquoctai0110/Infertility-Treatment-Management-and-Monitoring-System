@@ -6,22 +6,19 @@ import com.fuhcm.swp391.be.itmms.dto.response.DoctorResponse;
 import com.fuhcm.swp391.be.itmms.dto.response.ResponseFormat;
 import com.fuhcm.swp391.be.itmms.service.DoctorService;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-
+@RequestMapping("/api/doctors")
 public class DoctorController {
-
     private final DoctorService doctorService;
 
-    public DoctorController(DoctorService doctorService) {
-        this.doctorService = doctorService;
-    }
-
-    @GetMapping("/api/home/doctors")
+    @GetMapping("/home")
     public ResponseEntity getDoctorsInHomePage() {
         return ResponseEntity.ok(
                 new ResponseFormat<>(HttpStatus.OK.value(),
@@ -29,10 +26,9 @@ public class DoctorController {
                                         "Lấy dữ liệu thành công",
                                                 doctorService.getDoctorsInHomePage())
         );
-
     }
 
-    @GetMapping("/api/doctor/account")
+    @GetMapping("/accounts")
     public ResponseEntity getDoctorAccount() {
         return ResponseEntity.ok(
                 new ResponseFormat<>(HttpStatus.OK.value(),
@@ -40,10 +36,9 @@ public class DoctorController {
                         "Lấy dữ liệu thành công",
                         doctorService.getDoctorAccount())
         );
-
     }
 
-    @GetMapping("/api/doctors/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity getDoctorById(@PathVariable Long id) throws NotFoundException {
         DoctorResponse response = doctorService.getDoctorById(id);
         return ResponseEntity.ok(new ResponseFormat<>(HttpStatus.OK.value(),
@@ -52,7 +47,7 @@ public class DoctorController {
                 response));
     }
 
-    @GetMapping("/api/manage/doctors/details")
+    @GetMapping("/details")
     public ResponseEntity<?> getDoctorByEmail(@RequestParam String email) throws NotFoundException {
         DoctorResponse doctor = doctorService.getDoctorByEmail(email);
         return ResponseEntity.ok(
@@ -63,7 +58,7 @@ public class DoctorController {
         );
     }
 
-    @PutMapping("/api/manage/doctors/details/{id}")
+    @PutMapping("/details/{id}")
     public ResponseEntity<?> updateDoctor(@PathVariable("id") Long doctorId,
                                           @RequestBody DoctorRequest request) throws NotFoundException {
         DoctorResponse response = doctorService.updateDoctor(doctorId, request);
@@ -75,7 +70,7 @@ public class DoctorController {
         );
     }
 
-    @PostMapping("/api/manage/doctors/details")
+    @PostMapping("/details")
     public ResponseEntity<?> createDoctor(@RequestBody DoctorRequest request) throws NotFoundException {
         DoctorResponse response = doctorService.createDoctor(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -85,13 +80,4 @@ public class DoctorController {
                         response)
         );
     }
-
-
-
-
-
-
-
-
-
 }
