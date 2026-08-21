@@ -77,18 +77,6 @@ public class AppointmentController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Appointment found", appointmentResponse));
     }
 
-    @GetMapping("/test")
-    public ResponseEntity getAllAppointments() {
-        return ResponseEntity.ok(
-                new ResponseFormat<>(
-                        HttpStatus.OK.value(),
-                        "FETCH_SUCCESS",
-                        "Lấy danh sách lịch hẹn thành công",
-                        appointmentService.getAllAppointments()
-                )
-        );
-    }
-
     @GetMapping("/report")
     public ResponseEntity<?> getAppointmentReport(@Valid @RequestParam("fromDate") @NotNull LocalDate fromDate,
                                                   @Valid @RequestParam("toDate") @NotNull LocalDate toDate) throws NotFoundException {
